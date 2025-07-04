@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const openaiRoute = require('./routes/openai');
@@ -16,9 +15,8 @@ app.use('/api/openai', openaiRoute);
 app.use(express.static(path.join(__dirname, 'client')));
 
 // أي مسار غير معروف يرجع index.html
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'index.html'));
 });
-
 // تشغيل السيرفر
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
