@@ -1,22 +1,17 @@
+
 const express = require('express');
-const path = require('path');
-const openaiRoute = require('./routes/openai');
-
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
-// إعداد الميدل وير
-app.use(express.json());
-
-// مسار API الخاص بـ OpenAI
-app.use('/api/openai', openaiRoute);
-
-// تقديم ملفات الواجهة (Frontend)
-app.use(express.static(path.join(__dirname, 'client')));
-
-// أي مسار غير معروف يرجع index.html
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'index.html'));
+app.get('/', (req, res) => {
+  res.send('Hello from KRX AI!');
 });
-// تشغيل السيرفر
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+
+// Example route with parameter
+app.get('/user/:id', (req, res) => {
+  res.send(`User ID: ${req.params.id}`);
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});

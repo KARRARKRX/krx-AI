@@ -1,20 +1,12 @@
+
 {
   "name": "krx-ai-app",
   "version": "1.0.0",
-  "description": "KR-X AI Chat App using OpenAI",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "dotenv": "^17.0.1",
-    "express": "^5.1.0",
-    "mongoose": "^8.16.1",
-    "openai": "^5.8.2"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "author": "Karrar Alabdali",
-  "license": "MIT"
+    "express": "^4.18.2"
+  }
 }
