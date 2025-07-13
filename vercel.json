@@ -1,8 +1,19 @@
 {
-  "rewrites": [
+  "builds": [
     {
-      "source": "/",
-      "destination": "/chat.html"
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/chat",
+      "methods": ["POST"],
+      "dest": "server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/chat.html"
     }
   ]
 }
