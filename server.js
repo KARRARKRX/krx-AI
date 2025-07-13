@@ -1,15 +1,40 @@
 const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const { OpenAI } = require("openai");
+require("dotenv").config();
+
 const app = express();
-const chatRoute = require("./routes/chat");
-const path = require("path");
-
-app.use(express.json());
+app.use(cors());
+app.use(bodyParser.json());
 app.use(express.static("public"));
-app.use("/chat", chatRoute);
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+app.post("/chat", async (req, res) => {
+  try {
+    const { message } = req.body;
+
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content: "رد بطريقة ذكية وإنسانية وبنفس لغة المستخدم.",
+        },
+        { role: "user", content: message },
+      ],
+    });
+
+    const reply = completion.choices[0].message.content;
+    res.json({ response: reply });
+  } catch (err) {
+    console.error(err);
+    res.json({ response: "صارت مشكلة، جرب مرة ثانية 😅" });
+  }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("Server running on", PORT));
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
