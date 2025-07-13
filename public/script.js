@@ -10,14 +10,18 @@ form.addEventListener("submit", async (e) => {
   appendMessage("user", message);
   input.value = "";
 
-  const res = await fetch("/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message })
-  });
+  try {
+    const res = await fetch("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message })
+    });
 
-  const data = await res.json();
-  appendMessage("bot", data.response);
+    const data = await res.json();
+    appendMessage("bot", data.reply); // <-- هنا التعديل
+  } catch (err) {
+    appendMessage("bot", "صارت مشكلة، جرب مرة ثانية 🙁");
+  }
 });
 
 function appendMessage(sender, text) {
